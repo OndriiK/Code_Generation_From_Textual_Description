@@ -1,0 +1,55 @@
+{% set DEFAULT_EXAMPLE %}
+--- START OF EXAMPLE ---
+
+USER:
+Can you explain what the `EntWaterArea.line_process_infobox` method does and how it connects to the rest of the entity pipeline?
+
+ASSISTANT:
+## Step 1: Clarify the Question
+- The developer wants to understand a method inside the `EntWaterArea` class.
+- The focus is on understanding both the logic and the broader role this method plays.
+
+## Step 2: Identify Key Search Terms
+**Keywords**: 
+    - `EntWaterArea`
+    - `line_process_infobox`
+
+**Action**: Run a code search using these keywords.
+<execute_ipython>
+search_terms = ["EntWaterArea", "line_process_infobox"]
+search_code_snippets(search_terms)
+</execute_ipython>
+
+USER:
+OBSERVATION:
+The `line_process_infobox` method processes structured lines of text extracted from Wikipedia infoboxes. It extracts:
+- Alternative names using the "name =" pattern
+- Continent using the "continent =" pattern
+- Latitude and longitude using "latitude =", "longitude ="
+- Surface area using the "area =" pattern
+
+Each line is matched using regular expressions, cleaned, and routed into specialized helper methods such as `get_area()` or `get_continent()`.
+
+ASSISTANT:
+## Step 3: Explanation
+The `line_process_infobox` method is a key parser that interprets and extracts structured information from infobox text lines. Its main role is to populate class attributes like `aliases`, `continent`, `coordinates`, and `area`.
+
+It uses pattern matching (via regex) to detect relevant lines, splits the content on '=', trims whitespace, and delegates to helper methods when appropriate. The `is_infobox_block` flag is used to short-circuit redundant processing, ensuring that infobox lines are handled only once.
+
+This method is called after initial text preprocessing and before serialization. It serves as the main extraction step in the entity construction pipeline and directly contributes to the final data structure output in the `serialize()` method.
+
+<finish></finish>
+
+--- END OF EXAMPLE ---
+{% endset %}
+Here is an example of how you can interact with the environment to answer clarification questions about existing code:
+{{ DEFAULT_EXAMPLE }}
+{% if micro_agent %}
+--- BEGIN OF GUIDELINE ---
+The following information may assist you in completing your task:
+
+{{ micro_agent }}
+--- END OF GUIDELINE ---
+{% endif %}
+
+NOW, LET'S START!

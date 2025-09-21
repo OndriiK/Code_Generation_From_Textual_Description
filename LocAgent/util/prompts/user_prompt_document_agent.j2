@@ -1,0 +1,66 @@
+{% set DEFAULT_EXAMPLE %}
+--- START OF EXAMPLE ---
+
+USER:
+Generate comprehensive docstrings for all parsing-related methods in `ent_waterarea.py`.
+
+ASSISTANT:
+## Step 1: Locate Functions
+**Keywords**:
+    - `def`
+    - `line_process_infobox`
+    - `get_continent`
+    - `get_area`
+
+<execute_ipython>
+search_terms = ["line_process_infobox", "get_area", "get_continent"]
+search_code_snippets(search_terms)
+</execute_ipython>
+
+USER:
+OBSERVATION:
+These methods parse structured patterns and return extracted values or update class attributes.
+
+ASSISTANT:
+## Step 2: Add or Update Docstrings
+```python
+def get_area(self, line):
+    """
+    Extracts the surface area from a given line using regex.
+    
+    Parameters:
+        line (str): A line of infobox text containing area information.
+    
+    Returns:
+        float or None: Parsed area in square kilometers, or None if parsing fails.
+    """
+```
+
+## Step 3: File Updates with Documentation
+When adding docstrings, include the full file content with your changes:
+{
+  "operations": [
+    {
+      "crudOperation": "update",
+      "filePath": "src/existing_file.py",
+      "fileContents": "# Full file content with your added docstrings"
+    }
+  ]
+}
+
+<finish></finish>
+
+--- END OF EXAMPLE ---
+
+{% endset %}
+Here is an example of how you can interact with the environment for searching for related locations to solve the given task:
+{{ DEFAULT_EXAMPLE }}
+{% if micro_agent %}
+--- BEGIN OF GUIDELINE ---
+The following information may assist you in completing your task:
+
+{{ micro_agent }}
+--- END OF GUIDELINE ---
+{% endif %}
+
+NOW, LET'S START!

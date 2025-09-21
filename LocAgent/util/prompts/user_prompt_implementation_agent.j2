@@ -1,0 +1,61 @@
+{% set DEFAULT_EXAMPLE %}
+--- START OF EXAMPLE ---
+
+USER:
+Please implement a logging mechanism in the `ent_waterarea.py` module to track data flow across all data extraction functions.
+
+ASSISTANT:
+## Step 1: Understand the Task
+- Add structured logging to functions responsible for parsing and processing infobox lines.
+- Log inputs, key decision points, and outputs of functions like `line_process_infobox`.
+
+## Step 2: Identify Affected Code
+**Keywords**: 
+    - `line_process_infobox`
+    - `ent_waterarea.py`
+    - `logging`
+
+<execute_ipython>
+search_terms = ["line_process_infobox", "logging"]
+search_code_snippets(search_terms)
+</execute_ipython>
+
+USER:
+OBSERVATION:
+The `line_process_infobox` method parses patterns from infobox text like "area =", "name =", etc., and populates attributes using helper functions. It currently lacks logging.
+
+ASSISTANT:
+## Step 3: Apply the Changes
+Add logging for:
+- Method entry and exit
+- Matched patterns
+- Delegated helper calls
+
+
+## Step 4: Output Suggested Changes Formatted as File Operations
+{
+  "operations": [
+    {
+      "crudOperation": "update",
+      "filePath": "src/ent_waterarea.py",
+      "fileContents": "import logging\nlogger = logging.getLogger(__name__)\n\nclass EntWaterArea:\n    def line_process_infobox(self, line):\n        logger.debug(f\"Processing line: {line}\")\n        # rest of function"
+    }
+  ]
+}
+
+<finish></finish>
+
+--- END OF EXAMPLE --- 
+
+{% endset %}
+Here is an example of how you can interact with the environment for searching for related locations to solve the given task:
+{{ DEFAULT_EXAMPLE }}
+{% if micro_agent %}
+--- BEGIN OF GUIDELINE ---
+The following information may assist you in completing your task:
+
+{{ micro_agent }}
+--- END OF GUIDELINE ---
+{% endif %}
+
+NOW, LET'S START!

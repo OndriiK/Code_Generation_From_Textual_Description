@@ -1,0 +1,63 @@
+{% set DEFAULT_EXAMPLE %}
+--- START OF EXAMPLE ---
+
+USER:
+We're facing incorrect output in the `process_infobox` pipeline for lakes with missing coordinates. Can you debug this?
+
+ASSISTANT:
+## Step 1: Understand the Problem
+- Output is incorrect when coordinate fields are missing.
+- Possibly due to bad exception handling or null propagation.
+
+## Step 2: Locate and Analyze Relevant Code
+**Keywords**: 
+    - `process_infobox`
+    - `latitude`
+    - `longitude`
+    - `get_coordinates`
+
+<execute_ipython>
+search_terms = ["process_infobox", "latitude", "longitude"]
+search_code_snippets(search_terms)
+</execute_ipython>
+
+USER:
+OBSERVATION:
+The function uses `re.search()` on each line. If latitude or longitude aren't found, the value stays unset and causes downstream logic to fail when accessed.
+
+ASSISTANT:
+## Step 3: Suggest Debug Fix
+Add checks for missing fields and default fallback or log warnings:
+```python
+if not match_lat:
+    logger.warning("Latitude not found in line.")
+    self.latitude = None
+```
+
+## Step 4: Formatted Output for File Operations:
+{
+  "operations": [
+    {
+      "crudOperation": "update",
+      "filePath": "src/ent_waterarea.py",
+      "fileContents": "import logging\nlogger = logging.getLogger(__name__)\n\nclass EntWaterArea:\n    def line_process_infobox(self, line):\n        logger.debug(f\"Processing line: {line}\")\n        # rest of function"
+    }
+  ]
+}
+
+<finish></finish>
+
+--- END OF EXAMPLE ---
+
+{% endset %}
+Here is an example of how you can interact with the environment for searching for related locations to solve the given task:
+{{ DEFAULT_EXAMPLE }}
+{% if micro_agent %}
+--- BEGIN OF GUIDELINE ---
+The following information may assist you in completing your task:
+
+{{ micro_agent }}
+--- END OF GUIDELINE ---
+{% endif %}
+
+NOW, LET'S START!

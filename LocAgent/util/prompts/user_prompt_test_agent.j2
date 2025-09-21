@@ -1,0 +1,94 @@
+{% set DEFAULT_EXAMPLE %}
+--- START OF EXAMPLE ---
+
+USER:
+Create test cases for `get_coordinates` and `get_area` methods in `ent_waterarea.py`.
+
+A:
+## Step 1: Understand Target Methods
+- Both methods extract values from lines using regex.
+- Return float values or None.
+
+## Step 2: Search for code snippets to gain contextual insight
+<execute_ipython>
+search_terms = ["get_coordinates", "get_area", "ent_waterarea.py"]
+search_code_snippets(search_terms)
+</execute_ipython>
+
+Results:
+```python
+# From ent_waterarea.py
+def get_coordinates(self, line):
+    """Extract coordinates from a line.
+    
+    Args:
+        line (str): Line to process
+        
+    Returns:
+        tuple or None: (lat, long) as floats or None if not found
+    """
+    match = re.search(r'coordinates\s*=\s*([\d\.]+)[,\s]+([\d\.]+)', line)
+    if match:
+        return float(match.group(1)), float(match.group(2))
+    return None
+
+def get_area(self, line):
+    """Extract area value from a line.
+    
+    Args:
+        line (str): Line to process
+        
+    Returns:
+        float or None: Area in square kilometers or None if not found
+    """
+    match = re.search(r'area\s*=\s*([\d\.]+)', line)
+    if match:
+        return float(match.group(1))
+    return None
+```
+
+## Step 3: Define Test Inputs and Expected Outputs
+- Valid input with exact match
+- Edge case with malformed line
+- Missing pattern
+
+## Step 4: Write Unit Tests
+```python
+def test_get_area_valid():
+    line = "area = 250.5"
+    result = instance.get_area(line)
+    assert result == 250.5
+
+def test_get_area_missing():
+    line = "volume = 1000"
+    result = instance.get_area(line)
+    assert result is None
+```
+
+## Step 5: Output Suggested Changes Formatted as File Operations
+{
+  "operations": [
+    {
+      "crudOperation": "create",
+      "filePath": "tests/test_ent_waterarea.py",
+      "fileContents": "# Full content of the new test file"
+    }
+  ]
+}
+
+<finish></finish>
+
+--- END OF EXAMPLE ---
+
+{% endset %}
+Here is an example of how you can interact with the environment for searching for related locations to solve the given task:
+{{ DEFAULT_EXAMPLE }}
+{% if micro_agent %}
+--- BEGIN OF GUIDELINE ---
+The following information may assist you in completing your task:
+
+{{ micro_agent }}
+--- END OF GUIDELINE ---
+{% endif %}
+
+NOW, LET'S START!
